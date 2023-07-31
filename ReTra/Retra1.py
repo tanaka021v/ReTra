@@ -80,9 +80,6 @@ def firsttranscriber(language1, language2, device_index, microphone_index):
                 # play(audio)
                 os.remove(filename)
                 os.remove((f'translation_text{index1}.wav'))
-        else:
-            pass
-        
         
     def start_thread():
         while not thread_queue.empty():
@@ -153,15 +150,7 @@ def firsttranscriber(language1, language2, device_index, microphone_index):
             print('Keyboard Interruption')
             break
 
-
-    # thread = threading.Thread(target= firsttranscriber, args = ('de', 'en', 12 ,3))
-    # thread2 = threading.Thread(target = firsttranscriber, args = ('en', 'de', 14, 1))
-    # thread.start()
-    # thread2.start()
-    #12 ist Headphone Virtual X und 3 ist mikrofon von freedom
-    #14 ist freedoom und 1 ist mikrofon von virtual x
-
 if __name__ == "__main__":
     firsttranscriber(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))        
-    # firsttranscriber(language2, language1, )
+
 
