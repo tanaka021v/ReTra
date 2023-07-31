@@ -105,7 +105,7 @@ def firsttranscriber(language1, language2, device_index, microphone_index):
      
                 try:
                     audio_data = sr.AudioData(last_sample, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
-                    text = recorder.recognize_google(audio_data, language= language1)
+                    text = recorder.recognize_google(audio_data, language = language1)
                     # second_text = recorder.recognize_google(audio_data, language='en')
                     
                 except sr.UnknownValueError:
