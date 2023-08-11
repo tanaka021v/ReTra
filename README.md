@@ -16,8 +16,8 @@ After the speech has been recognized, it is either appended to the end of the pr
 
 A big problem was that if nothing new is spoken, the last recognized text is always retranslated and played back repeatedly. To fix this, I had to filter the translated text so that the new recognized text differs from the last text. **Example :
 text_1 = "I'm Tanaka021v and I love Python"
-text_2 = "I'm Tanaka021v and I love Python, but I'm la
-boring" -> The aim is to filter only the new part, that would then be text_3 = ", but I'm bored".**
+text_2 = "I'm Tanaka021v and I love Python, but I'm
+bored" -> The aim is to filter only the new part, that would then be text_3 = ", but I'm bored".**
 This _extra_text_ is then passed as a parameter into my thread, which calls the method to translate the text and then play it in the other headphone. Regarding this, one more case had to be considered, and that is the first text that is spoken and has no previous text (when the list _transcription_ has a length of zero at the beginning).
 Because it has no previous "neighbor", the first text is compared to the string ''. Of course, these two have nothing in common, which is why the thread is not called, so I have to insert the else query to use the first text in the thread as a parameter in order to finally translate and play it.
 
