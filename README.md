@@ -8,7 +8,7 @@ Each headphone is then assigned the language that the speaker also knows. Let's 
 ## ReTraAlgorithm Code explained:
 
 In this section I want to talk about the logic behind this code. I inspired the logic behind this code of the following github repository: _https://github.com/davabase/whisper_real_time/blob/master/transcribe_demo.py_ .
-When speaker A talks, his talk is not recorded for the whole time until he has finished talking, i.e. an end is detected, but his speech is recorded for five seconds and converted into a text by the Speech Recognition (Google) module and this repeats. 
+When speaker A talks, his talk is not recorded for the whole time until he has finished talking, i.e. an end is detected, but his speech is recorded for five seconds and converted into a text by the Speech Recognition (Google) module and this repeats in order to reach real time translation. (accuracity is not high compared to delayed recognition, because of reaching this) 
 
 In the background (in a thread) raw audio data is recorded by the microphone. Since this audio data is one of several future audio snippets, these snippets are added to a queue. 
 In the While loop, after phrase_timeout (5 seconds in my case), all previous raw audio data that are in the queue are stored in a byte sequence _last_sample_ variable. The audio data stored in _last_sample_ as binary data is stored in an object instance AudioData from the Speech Recognition module, as _audio_data_. This object now represents the audio data. This object is then converted to text, by _text = recorder.recognize_google(audio_data, language= language1)_ (line 112).
