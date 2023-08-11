@@ -75,8 +75,8 @@ class Retra_GUI(ctk.CTk):
     def start_retra(self):
         while True:
             if self.headphone_input is not None and self.headphone_input2 is not None and self.headphone_output is not None and self.headphone_output2 is not None and self.first_language is not None and self.second_language is not None:
-                subprocess.Popen(['python', 'Retra1.py', self.first_language, self.second_language, str(self.headphone_output), str(self.headphone_input2)])
-                subprocess.Popen(['python', 'Retra1.py', self.second_language, self.first_language, str(self.headphone_output2), str(self.headphone_input)])
+                subprocess.Popen(['python', 'RetraAlgorithm.py', self.first_language, self.second_language, str(self.headphone_output), str(self.headphone_input2)])
+                subprocess.Popen(['python', 'RetraAlgorithm.py', self.second_language, self.first_language, str(self.headphone_output2), str(self.headphone_input)])
                 
                 break
             time.sleep(3) 
