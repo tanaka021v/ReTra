@@ -1,26 +1,19 @@
-# ReTra
-## Python Project2:  Real-Time Speech Translation for Instant Multilingual Conversations (Only works on Windows)
+# ReTra: Real-Time Speech Translation for Instant Multilingual Conversations (Windows Only)
+## How It Works:
+The concept behind ReTra is to enable real-time multilingual conversations by connecting two headphones to a Windows laptop via Bluetooth or USB. Each headphone is assigned the language known by the respective speaker. For instance, if Speaker A speaks German and Speaker B speaks English, ReTra translates the spoken language from one speaker to the other. Here's how it operates:
 
-# How does it work:
-My idea behind this is to link two headphones to my Windows laptop via Bluetooth or USB.
-Each headphone is then assigned the language that the speaker also knows. Let's say _speaker A_ speaks German and _speaker B_ speaks English. When _speaker A_ speaks German, the microphone picks up what is spoken at certain intervals, converts it to text through the Speech Recognition Google API, and translates the text into English. The translated speech from German to English is then played through _speaker B's_ headphones and vice versa for _speaker B_ as well
+-When Speaker A speaks, the microphone captures the speech at intervals, typically five seconds.
+-The captured speech is converted to text using the Speech Recognition Google API.
+-The text is then translated into the language understood by Speaker B.
+-The translated speech is played through Speaker B's headphones, and vice versa for Speaker B.
+## ReTraAlgorithm Code Explanation:
+In this section, I'll discuss the logic behind the ReTraAlgorithm code, inspired by a GitHub repository (https://github.com/davabase/whisper_real_time/blob/master/transcribe_demo.py).
 
-## ReTraAlgorithm Code explained:
-
-In this section I want to talk about the logic behind this code. I inspired the logic behind this code of the following github repository: _https://github.com/davabase/whisper_real_time/blob/master/transcribe_demo.py_ .
-When speaker A talks, his talk is not recorded for the whole time until he has finished talking, i.e. an end is detected, but his speech is recorded for five seconds and converted into a text by the Speech Recognition (Google) module and this repeats in order to reach real time translation. (accuracity is not high compared to delayed recognition, because of reaching this) 
-
-In the background (in a thread) raw audio data is recorded by the microphone. Since this audio data is one of several future audio snippets, these snippets are added to a queue. 
-In the While loop, after phrase_timeout (5 seconds in my case), all previous raw audio data that are in the queue are stored in a byte sequence _last_sample_ variable. The audio data stored in _last_sample_ as binary data is stored in an object instance AudioData from the Speech Recognition module, as _audio_data_. This object now represents the audio data. This object is then converted to text, by _text = recorder.recognize_google(audio_data, language= language1)_ (line 112).
-After the speech has been recognized, it is either appended to the end of the previous text or added to the list, depending on whether it occurred at phrase_timeout. (To document that spoken).
-
-A big problem was that if nothing new is spoken, the last recognized text is always retranslated and played back repeatedly. To fix this, I had to filter the translated text so that the new recognized text differs from the last text. **Example :
-text_1 = "I'm Tanaka021v and I love Python"
-text_2 = "I'm Tanaka021v and I love Python, but I'm
-bored" -> The aim is to filter only the new part, that would then be text_3 = ", but I'm bored".**
-This _extra_text_ is then passed as a parameter into my thread, which calls the method to translate the text and then play it in the other headphone. Regarding this, one more case had to be considered, and that is the first text that is spoken and has no previous text (when the list _transcription_ has a length of zero at the beginning).
-Because it has no previous "neighbor", the first text is compared to the string ''. Of course, these two have nothing in common, which is why the thread is not called, so I have to insert the else query to use the first text in the thread as a parameter in order to finally translate and play it.
-
-
-
-
+-Raw audio data is continuously recorded in the background by the microphone and stored in a queue.
+-At set intervals (e.g., every five seconds), the previous audio snippets in the queue are processed.
+-The audio data is converted to text using the Speech Recognition module.
+-The recognized speech is appended to the previous text or added to the list, depending on whether it occurred at the interval.
+-To prevent repeated translation of unchanged text, a filtering mechanism is implemented. Only the new part of the recognized text is considered for translation and playback.
+-For instance, if the previous text was "I'm Tanaka021v and I love Python," and the new text is "I'm Tanaka021v and I love Python, but I'm bored," only the new part ", but I'm bored" is translated and played.
+-Special consideration is given to the first text spoken, which has no previous text for comparison. In this case, the entire text is translated and played without filtering.
+Overall, the ReTraAlgorithm ensures real-time translation and playback of speech for seamless multilingual communication.
